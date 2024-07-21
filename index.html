@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Application Response</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #090D17;
+        }
+        .form-container {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            width: 20%;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+            border: none;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background: radial-gradient(circle, #3b82f6, #347af4, #2e73f1, #296bee, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background: #3b82f6;
+        }
+        #text-group {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form id="webhook-form">
+            <div class="form-group">
+                <label for="discord-id">Enter Discord ID (Ex: 1621965120950)</label>
+                <input type="text" id="discord-id" name="discord-id" required>
+            </div>
+            <div class="form-group">
+                <label for="status">Application Status</label>
+                <select id="status" name="status" required>
+                    <option value="accepted">Accepted</option>
+                    <option value="denied">Denied</option>
+                </select>
+            </div>
+            <div class="form-group" id="text-group">
+                <label for="text">Enter Reason</label>
+                <input type="text" id="text" name="text">
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const statusSelect = document.getElementById('status');
+        const textGroup = document.getElementById('text-group');
+        const textInput = document.getElementById('text');
+
+        statusSelect.addEventListener('change', function() {
+            if (statusSelect.value === 'denied') {
+                textGroup.style.display = 'block';
+                textInput.required = true;
+            } else {
+                textGroup.style.display = 'none';
+                textInput.required = false;
+            }
+        });
+
+        document.getElementById('webhook-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const text = document.getElementById('text').value;
+            const discordId = document.getElementById('discord-id').value;
+            const status = document.getElementById('status').value;
+
+            fetch('http://147.189.171.202:3000/api/send-response', { // Ensure this matches your server's URL and port
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text, discordId, status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Success') {
+                    alert('Message sent!');
+                } else {
+                    alert('Error sending message.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Error sending message.');
+            });
+        });
+    </script>
+</body>
+</html>
