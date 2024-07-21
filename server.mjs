@@ -75,7 +75,7 @@ app.post('/api/send-response', async (req, res) => {
 });
 
 app.get('/*', (req, res) => {
-    res.sendFile('/xampp/htdocs/application/index.html')
+    res.sendFile('/index.html')
 })
 
 app.listen(PORT, () => {
