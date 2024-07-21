@@ -5,6 +5,9 @@ import bodyParser from 'body-parser';
 import { Client, GatewayIntentBits } from 'discord.js';
 import axios from 'axios';
 import cors from 'cors';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -24,10 +27,13 @@ client.once('ready', () => {
 app.use(cors()); // Enable CORS for all routes
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use(express.static(join(__dirname, 'public')));
 
 app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(join(__dirname, 'public', 'index.html'));
 });
 
 app.post('/api/send-response', async (req, res) => {
