@@ -24,7 +24,11 @@ client.once('ready', () => {
 app.use(cors()); // Enable CORS for all routes
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public')); // Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.post('/api/send-response', async (req, res) => {
     const { text, discordId, status } = req.body;
@@ -73,10 +77,6 @@ app.post('/api/send-response', async (req, res) => {
         res.status(500).json({ message: 'Error sending message', error: error.response ? error.response.data : error.message });
     }
 });
-
-app.get('/*', (req, res) => {
-    res.sendFile('/index.html')
-})
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
