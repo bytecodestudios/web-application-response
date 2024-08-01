@@ -1,0 +1,71 @@
+body {
+    font-family: Arial, sans-serif;
+    background: rgba(2, 6, 16, 1);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.form-container {
+    background-color: rgba(28, 31, 40, 1);
+    padding: 20px;
+    border-radius: 6px;
+    max-width: 30vw;
+    width: 100%;
+}
+.form-container h1 {
+    margin-bottom: 20px;
+}
+.form-container a {
+    font-size: 1.3vh;
+}
+.form-container .form-group {
+    margin-bottom: 15px;
+}
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #333947;
+    color: #fff;
+}
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #333947;
+    color: #fff;
+}
+.form-container input[type="radio"] {
+    margin-right: 10%;
+}
+.form-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background: radial-gradient(circle, #3b82f6, #347af4, #2e73f1, #296bee, #2563eb);
+    color: #fff;
+    cursor: pointer;
+}
+.form-container .error {
+    color: #4769ff;
+    display: none;
+}
+.form-container .linkedClass {
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+    height: 10%;
+}

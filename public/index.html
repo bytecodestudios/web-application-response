@@ -5,83 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Allowlist Application</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1c1c1c;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .form-container {
-            background-color: #2b2b2b;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 100%;
-        }
-        .form-container h2 {
-            margin-bottom: 20px;
-        }
-        .form-container .form-group {
-            margin-bottom: 15px;
-        }
-        .form-container label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-container input[type="text"],
-        .form-container input[type="number"],
-        .form-container input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            background-color: #3b3b3b;
-            color: #fff;
-        }
-        .form-container select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            background-color: #3b3b3b;
-            color: #fff;
-        }
-        .form-container input[type="radio"] {
-            margin-right: 10%;
-        }
-        .form-container button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #476fff;
-            color: #fff;
-            cursor: pointer;
-        }
-        .form-container .error {
-            color: #4769ff;
-            display: none;
-        }
-        .form-container .linkedClass {
-            display: flex;
-            justify-content: space-between;
-            width: 30%;
-            height: 10%;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="form-container">
-    <h2>Allowlist Application</h2>
+    <h1>Allowlist Application</h1>
     <p>Please follow the instructions provided in this video to link your cfx account with FiveM application.</p>
-    <p>Instructions Video: <a href="https://youtu.be/jezxz26XPl0" target="_blank" style="color: #4769ff;">https://youtu.be/jezxz26XPl0</a></p>
+    <p>Instructions Video: <a href="https://youtu.be/jezxz26XPl0" target="_blank" style="color: #9dadff;">https://youtu.be/jezxz26XPl0</a></p>
     <form id="allowlistForm">
         <div class="form-group">
             <label for="characterName">1. Your Character Name *</label>
@@ -294,7 +225,9 @@
             <span class="error" id="discordIdError">Please enter a valid Discord ID (18 digits).</span>
         </div>
         <div class="form-group">
-            <label>4. Have you linked your cfx account to FiveM? *</label>
+            <label>4. Have you linked your cfx account to FiveM? *
+                <br><a href="https://youtu.be/jezxz26XPl0" target="_blank" style="color: #9dadff;">Click here for demo on how to link cfx to fivem</a>
+            </label>
             <div class="linkedClass">
                 <input type="radio" id="linkedYes" name="linked" value="Yes" required>
                 <label for="linkedYes">Yes</label>
