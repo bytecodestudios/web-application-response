@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 import bodyParser from 'body-parser';
-import { Client, GatewayIntentBits, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } from 'discord.js';
+import { Client, GatewayIntentBits, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import cors from 'cors';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -44,7 +44,7 @@ app.post('/api/submit-form', async (req, res) => {
             throw new Error('Invalid form channel');
         }
 
-        // Create buttons with custom ID including discordId and linked status
+        // Create buttons with custom ID including discordId
         const acceptButton = new ButtonBuilder()
             .setCustomId(`accept_${discordId}`)
             .setLabel('Accept')
@@ -66,7 +66,7 @@ app.post('/api/submit-form', async (req, res) => {
                 { name: 'Character Nationality', value: characterNationality, inline: true },
                 { name: 'Discord ID', value: discordId, inline: true },
             )
-            .setDescription(`${linked === 'Yes' ? 'This person has **linked** their cfx with fivem' : 'This person has **not linked** their cfx with fivem' }`)
+            .setDescription(`${linked === 'Yes' ? 'This person has **linked** their cfx with fivem' : 'This person has **not linked** their cfx with fivem'}`)
             .setColor(0x00FF00);
 
         await formChannel.send({
@@ -92,16 +92,7 @@ client.on('interactionCreate', async (interaction) => {
         // Extract the action, discordId from customId
         const [action, discordId] = customId.split('_');
 
-        // Defer the interaction to give more time if needed
-        await interaction.deferUpdate();
-
-        // Get the response channel
-        const responseChannel = await client.channels.fetch(responseChannelId);
-        if (!responseChannel || !responseChannel.isTextBased()) {
-            throw new Error('Invalid response channel');
-        }
-
-        let responseEmbed;
+        // Handle acceptance
         if (action === 'accept') {
             // Perform the actions for "Accept"
             const guild = await client.guilds.fetch(guildId);
@@ -109,45 +100,102 @@ client.on('interactionCreate', async (interaction) => {
             await member.roles.add(addRole);
             await member.roles.remove(removeRole);
 
-            // Post the response in the response channel
-            responseEmbed = new EmbedBuilder()
+            // Create and send the acceptance response
+            const responseEmbed = new EmbedBuilder()
                 .setTitle('Application Response')
-                .setDescription(`✅ <@${discordId}> Your application to Prime City Roleplay has been **Accepted** and you have been allowlisted.`)
+                .setDescription(`✅ Your application to Prime City Roleplay has been **Accepted** and you have been allowlisted.`)
                 .setColor(0x00FF00); // Green color
 
+            await (await client.channels.fetch(responseChannelId)).send({
+                content: `<@${discordId}>`,
+                embeds: [responseEmbed]
+            });
+
+            // Disable buttons in the original message
+            const row = new ActionRowBuilder().addComponents(
+                new ButtonBuilder()
+                    .setCustomId(`accept_${discordId}`)
+                    .setLabel('Accept')
+                    .setStyle(ButtonStyle.Success)
+                    .setDisabled(true),
+                new ButtonBuilder()
+                    .setCustomId(`decline_${discordId}`)
+                    .setLabel('Decline')
+                    .setStyle(ButtonStyle.Danger)
+                    .setDisabled(true)
+            );
+
+            await interaction.update({ components: [row] });
+
         } else if (action === 'decline') {
-            // Post the response in the response channel
-            responseEmbed = new EmbedBuilder()
-                .setTitle('Application Response')
-                .setDescription(`❌ <@${discordId}> Your application to Prime City Roleplay has been **Denied**, contact staff to know more!`)
-                .setColor(0xFF0000); // Red color
+            // Show a modal to collect the reason
+            const modal = new ModalBuilder()
+                .setCustomId(`declineReason_${discordId}`)
+                .setTitle('Provide Reason for Decline')
+                .addComponents(
+                    new ActionRowBuilder().addComponents(
+                        new TextInputBuilder()
+                            .setCustomId('declineReasonInput')
+                            .setLabel('Reason for Decline')
+                            .setStyle(TextInputStyle.Paragraph) // Corrected enum value
+                            .setRequired(true)
+                    )
+                );
+
+            await interaction.showModal(modal);
+
+        } else {
+            // If the action is not recognized
+            await interaction.reply({ content: 'Invalid action.', ephemeral: true });
         }
-
-        await responseChannel.send({
-            content: `<@${discordId}>`,
-            embeds: [responseEmbed]
-        });
-
-        // Disable buttons
-        const row = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId(`accept_${discordId}`)
-                .setLabel('Accept')
-                .setStyle(ButtonStyle.Success)
-                .setDisabled(true),
-            new ButtonBuilder()
-                .setCustomId(`decline_${discordId}`)
-                .setLabel('Decline')
-                .setStyle(ButtonStyle.Danger)
-                .setDisabled(true)
-        );
-
-        await interaction.editReply({ components: [row] });
 
     } catch (error) {
         console.error('Interaction error:', error.message);
         if (!interaction.replied && !interaction.deferred) {
             await interaction.reply({ content: 'There was an error processing your request.', ephemeral: true });
+        }
+    }
+});
+
+// Modal submit handler
+client.on('interactionCreate', async (interaction) => {
+    if (interaction.isModalSubmit()) {
+        const { customId, fields } = interaction;
+
+        if (customId.startsWith('declineReason_')) {
+            const [_, discordId] = customId.split('_');
+            const reason = fields.getTextInputValue('declineReasonInput');
+
+            // Create and send the decline response with reason
+            const responseEmbed = new EmbedBuilder()
+                .setTitle('Application Response')
+                .setDescription(`❌ Your application to Prime City Roleplay has been **Denied**. \n**Reason**: ${reason}`)
+                .setColor(0xFF0000); // Red color
+
+            await (await client.channels.fetch(responseChannelId)).send({
+                content: `<@${discordId}>`,
+                embeds: [responseEmbed]
+            });
+
+            // Disable buttons in the original message
+            const formChannel = await client.channels.fetch(formChannelId);
+            const formMessage = await formChannel.messages.fetch(interaction.message.id);
+
+            const row = new ActionRowBuilder().addComponents(
+                new ButtonBuilder()
+                    .setCustomId(`accept_${discordId}`)
+                    .setLabel('Accept')
+                    .setStyle(ButtonStyle.Success)
+                    .setDisabled(true),
+                new ButtonBuilder()
+                    .setCustomId(`decline_${discordId}`)
+                    .setLabel('Decline')
+                    .setStyle(ButtonStyle.Danger)
+                    .setDisabled(true)
+            );
+
+            await formMessage.edit({ components: [row] });
+            await interaction.reply({ content: 'Reason recorded and response sent.', ephemeral: true });
         }
     }
 });
