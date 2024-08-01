@@ -1,3 +1,6 @@
+const serverUrl = "https://allowlist-pcrp-application.onrender.com"
+//const serverUrl = "http://localhost:3000"
+
 const blacklist = ["fuck", "sex", "noob", "shit"]; // Add your blacklisted names here
 
 const isBlacklisted = (value) => {
@@ -58,7 +61,7 @@ document.getElementById('allowlistForm').addEventListener('submit', function(eve
             linked: linked.value
         };
 
-        fetch('http://localhost:3000/api/submit-form', {
+        fetch(`${serverUrl}/api/submit-form`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -67,9 +70,7 @@ document.getElementById('allowlistForm').addEventListener('submit', function(eve
         })
         .then(response => response.json())
         .then(data => {
-            if (data.message === 'Success') {
-                console.log('Form submitted successfully!');
-            } else {
+            if (data.message !== 'Success') {
                 console.log('Error submitting form.');
             }
         })
