@@ -3,120 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Application Response</title>
+    <title>Allowlist Application</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #1c1c1c;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #090D17;
+            margin: 0;
         }
         .form-container {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-            width: 20%;
+            background-color: #2b2b2b;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
         }
-        .form-group {
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .form-container .form-group {
             margin-bottom: 15px;
-            border: none;
         }
-        .form-group label {
+        .form-container label {
             display: block;
             margin-bottom: 5px;
         }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .form-group button {
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container input[type="email"] {
             width: 100%;
             padding: 10px;
-            background: radial-gradient(circle, #3b82f6, #347af4, #2e73f1, #296bee, #2563eb);
-            color: white;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            background-color: #3b3b3b;
+            color: #fff;
+        }
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            background-color: #3b3b3b;
+            color: #fff;
+        }
+        .form-container input[type="radio"] {
+            margin-right: 10%;
+        }
+        .form-container button {
+            padding: 10px 20px;
             border: none;
             border-radius: 4px;
+            background-color: #476fff;
+            color: #fff;
             cursor: pointer;
         }
-        .form-group button:hover {
-            background: #3b82f6;
-        }
-        #text-group {
+        .form-container .error {
+            color: #4769ff;
             display: none;
+        }
+        .form-container .linkedClass {
+            display: flex;
+            justify-content: space-between;
+            width: 30%;
+            height: 10%;
         }
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <form id="webhook-form">
-            <div class="form-group">
-                <label for="discord-id">Enter Discord ID (Ex: 1621965120950)</label>
-                <input type="text" id="discord-id" name="discord-id" required>
+
+<div class="form-container">
+    <h2>Allowlist Application</h2>
+    <p>Please follow the instructions provided in this video to link your cfx account with FiveM application.</p>
+    <p>Instructions Video: <a href="https://youtu.be/jezxz26XPl0" target="_blank" style="color: #4769ff;">https://youtu.be/jezxz26XPl0</a></p>
+    <form id="allowlistForm">
+        <div class="form-group">
+            <label for="characterName">1. Your Character Name *</label>
+            <input type="text" id="characterName" name="characterName" required>
+            <span class="error" id="characterNameError">Please enter a valid character name (First and Last name).</span>
+        </div>
+        <div class="form-group">
+            <label for="characterNationality">2. Your Character's Nationality *</label>
+            <select id="characterNationality" name="characterNationality" required>
+                <option value="" disabled selected>Select your nationality</option>
+                <option value="Afghan">Afghan</option>
+                <option value="Albanian">Albanian</option>
+                <option value="Algerian">Algerian</option>
+                <option value="American">American</option>
+                <option value="Andorran">Andorran</option>
+                <option value="Angolan">Angolan</option>
+                <option value="Antiguan">Antiguan</option>
+                <option value="Argentine">Argentine</option>
+                <option value="Armenian">Armenian</option>
+                <option value="Australian">Australian</option>
+                <option value="Austrian">Austrian</option>
+                <option value="Azerbaijani">Azerbaijani</option>
+                <option value="Bahamian">Bahamian</option>
+                <option value="Bahraini">Bahraini</option>
+                <option value="Bangladeshi">Bangladeshi</option>
+                <option value="Barbadian">Barbadian</option>
+                <option value="Belarusian">Belarusian</option>
+                <option value="Belgian">Belgian</option>
+                <option value="Belizean">Belizean</option>
+                <option value="Beninese">Beninese</option>
+                <option value="Bhutanese">Bhutanese</option>
+                <option value="Bolivian">Bolivian</option>
+                <option value="Bosnian">Bosnian</option>
+                <option value="Botswanan">Botswanan</option>
+                <option value="Brazilian">Brazilian</option>
+                <option value="British">British</option>
+                <option value="Bruneian">Bruneian</option>
+                <option value="Bulgarian">Bulgarian</option>
+                <option value="Burkinabe">Burkinabe</option>
+                <option value="Burmese">Burmese</option>
+                <option value="Burundian">Burundian</option>
+                <option value="Cambodian">Cambodian</option>
+                <option value="Cameroonian">Cameroonian</option>
+                <option value="Canadian">Canadian</option>
+                <option value="Cape Verdean">Cape Verdean</option>
+                <option value="Central African">Central African</option>
+                <option value="Chadian">Chadian</option>
+                <option value="Chilean">Chilean</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Colombian">Colombian</option>
+                <option value="Comorian">Comorian</option>
+                <option value="Congolese (Congo-Brazzaville)">Congolese (Congo-Brazzaville)</option>
+                <option value="Congolese (Congo-Kinshasa)">Congolese (Congo-Kinshasa)</option>
+                <option value="Costa Rican">Costa Rican</option>
+                <option value="Croatian">Croatian</option>
+                <option value="Cuban">Cuban</option>
+                <option value="Cypriot">Cypriot</option>
+                <option value="Czech">Czech</option>
+                <option value="Danish">Danish</option>
+                <option value="Djiboutian">Djiboutian</option>
+                <option value="Dominican">Dominican</option>
+                <option value="Dominican (Republic)">Dominican (Republic)</option>
+                <option value="East Timorese">East Timorese</option>
+                <option value="Ecuadorian">Ecuadorian</option>
+                <option value="Egyptian">Egyptian</option>
+                <option value="Emirati">Emirati</option>
+                <option value="Equatorial Guinean">Equatorial Guinean</option>
+                <option value="Eritrean">Eritrean</option>
+                <option value="Estonian">Estonian</option>
+                <option value="Ethiopian">Ethiopian</option>
+                <option value="Fijian">Fijian</option>
+                <option value="Finnish">Finnish</option>
+                <option value="French">French</option>
+                <option value="Gabonese">Gabonese</option>
+                <option value="Gambian">Gambian</option>
+                <option value="Georgian">Georgian</option>
+                <option value="German">German</option>
+                <option value="Ghanaian">Ghanaian</option>
+                <option value="Greek">Greek</option>
+                <option value="Grenadian">Grenadian</option>
+                <option value="Guatemalan">Guatemalan</option>
+                <option value="Guinean">Guinean</option>
+                <option value="Guinea-Bissauan">Guinea-Bissauan</option>
+                <option value="Guyanese">Guyanese</option>
+                <option value="Haitian">Haitian</option>
+                <option value="Honduran">Honduran</option>
+                <option value="Hungarian">Hungarian</option>
+                <option value="Icelander">Icelander</option>
+                <option value="Indian">Indian</option>
+                <option value="Indonesian">Indonesian</option>
+                <option value="Iranian">Iranian</option>
+                <option value="Iraqi">Iraqi</option>
+                <option value="Irish">Irish</option>
+                <option value="Israeli">Israeli</option>
+                <option value="Italian">Italian</option>
+                <option value="Ivorian">Ivorian</option>
+                <option value="Jamaican">Jamaican</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Jordanian">Jordanian</option>
+                <option value="Kazakh">Kazakh</option>
+                <option value="Kenyan">Kenyan</option>
+                <option value="Kiribati">Kiribati</option>
+                <option value="Korean (North)">Korean (North)</option>
+                <option value="Korean (South)">Korean (South)</option>
+                <option value="Kosovar">Kosovar</option>
+                <option value="Kuwaiti">Kuwaiti</option>
+                <option value="Kyrgyz">Kyrgyz</option>
+                <option value="Laotian">Laotian</option>
+                <option value="Latvian">Latvian</option>
+                <option value="Lebanese">Lebanese</option>
+                <option value="Liberian">Liberian</option>
+                <option value="Libyan">Libyan</option>
+                <option value="Liechtensteiner">Liechtensteiner</option>
+                <option value="Lithuanian">Lithuanian</option>
+                <option value="Luxembourger">Luxembourger</option>
+                <option value="Macedonian">Macedonian</option>
+                <option value="Madagascan">Madagascan</option>
+                <option value="Malawian">Malawian</option>
+                <option value="Malaysian">Malaysian</option>
+                <option value="Maldivian">Maldivian</option>
+                <option value="Malian">Malian</option>
+                <option value="Maltese">Maltese</option>
+                <option value="Marshallese">Marshallese</option>
+                <option value="Mauritanian">Mauritanian</option>
+                <option value="Mauritian">Mauritian</option>
+                <option value="Mexican">Mexican</option>
+                <option value="Micronesian">Micronesian</option>
+                <option value="Moldovan">Moldovan</option>
+                <option value="Monegasque">Monegasque</option>
+                <option value="Mongolian">Mongolian</option>
+                <option value="Montenegrin">Montenegrin</option>
+                <option value="Moroccan">Moroccan</option>
+                <option value="Mozambican">Mozambican</option>
+                <option value="Namibian">Namibian</option>
+                <option value="Nauruan">Nauruan</option>
+                <option value="Nepalese">Nepalese</option>
+                <option value="Dutch">Dutch</option>
+                <option value="New Zealander">New Zealander</option>
+                <option value="Nicaraguan">Nicaraguan</option>
+                <option value="Nigerien">Nigerien</option>
+                <option value="Nigerian">Nigerian</option>
+                <option value="Norwegian">Norwegian</option>
+                <option value="Omani">Omani</option>
+                <option value="Pakistani">Pakistani</option>
+                <option value="Palauan">Palauan</option>
+                <option value="Palestinian">Palestinian</option>
+                <option value="Panamanian">Panamanian</option>
+                <option value="Papua New Guinean">Papua New Guinean</option>
+                <option value="Paraguayan">Paraguayan</option>
+                <option value="Peruvian">Peruvian</option>
+                <option value="Filipino">Filipino</option>
+                <option value="Polish">Polish</option>
+                <option value="Portuguese">Portuguese</option>
+                <option value="Qatari">Qatari</option>
+                <option value="Romanian">Romanian</option>
+                <option value="Russian">Russian</option>
+                <option value="Rwandan">Rwandan</option>
+                <option value="Saint Kittian and Nevisian">Saint Kittian and Nevisian</option>
+                <option value="Saint Lucian">Saint Lucian</option>
+                <option value="Saint Vincentian">Saint Vincentian</option>
+                <option value="Samoan">Samoan</option>
+                <option value="San Marinese">San Marinese</option>
+                <option value="Sao Tomean">Sao Tomean</option>
+                <option value="Saudi">Saudi</option>
+                <option value="Senegalese">Senegalese</option>
+                <option value="Serbian">Serbian</option>
+                <option value="Seychellois">Seychellois</option>
+                <option value="Sierra Leonean">Sierra Leonean</option>
+                <option value="Singaporean">Singaporean</option>
+                <option value="Slovak">Slovak</option>
+                <option value="Slovenian">Slovenian</option>
+                <option value="Solomon Islander">Solomon Islander</option>
+                <option value="Somali">Somali</option>
+                <option value="South African">South African</option>
+                <option value="Spanish">Spanish</option>
+                <option value="Sri Lankan">Sri Lankan</option>
+                <option value="Sudanese">Sudanese</option>
+                <option value="Surinamese">Surinamese</option>
+                <option value="Swazi">Swazi</option>
+                <option value="Swedish">Swedish</option>
+                <option value="Swiss">Swiss</option>
+                <option value="Syrian">Syrian</option>
+                <option value="Taiwanese">Taiwanese</option>
+                <option value="Tajik">Tajik</option>
+                <option value="Tanzanian">Tanzanian</option>
+                <option value="Thai">Thai</option>
+                <option value="Togolese">Togolese</option>
+                <option value="Tongan">Tongan</option>
+                <option value="Trinidadian or Tobagonian">Trinidadian or Tobagonian</option>
+                <option value="Tunisian">Tunisian</option>
+                <option value="Turkish">Turkish</option>
+                <option value="Turkmen">Turkmen</option>
+                <option value="Tuvaluan">Tuvaluan</option>
+                <option value="Ugandan">Ugandan</option>
+                <option value="Ukrainian">Ukrainian</option>
+                <option value="Uruguayan">Uruguayan</option>
+                <option value="Uzbek">Uzbek</option>
+                <option value="Vanuatuan">Vanuatuan</option>
+                <option value="Venezuelan">Venezuelan</option>
+                <option value="Vietnamese">Vietnamese</option>
+                <option value="Yemeni">Yemeni</option>
+                <option value="Zambian">Zambian</option>
+                <option value="Zimbabwean">Zimbabwean</option>
+            </select>            
+            <span class="error" id="characterNationalityError">Please select your character's nationality.</span>
+        </div>
+        <div class="form-group">
+            <label for="discordId">3. Discord Id (Ex: 482449059194470410) *</label>
+            <input type="text" id="discordId" name="discordId" required pattern="^\d{18}$">
+            <span class="error" id="discordIdError">Please enter a valid Discord ID (18 digits).</span>
+        </div>
+        <div class="form-group">
+            <label>4. Have you linked your cfx account to FiveM? *</label>
+            <div class="linkedClass">
+                <input type="radio" id="linkedYes" name="linked" value="Yes" required>
+                <label for="linkedYes">Yes</label>
+                <input type="radio" id="linkedNo" name="linked" value="No" required>
+                <label for="linkedNo">No</label>
+                <span class="error" id="linkedError">Please select an option.</span>
             </div>
-            <div class="form-group">
-                <label for="status">Application Status</label>
-                <select id="status" name="status" required>
-                    <option value="accepted">Accepted</option>
-                    <option value="denied">Denied</option>
-                </select>
-            </div>
-            <div class="form-group" id="text-group">
-                <label for="text">Enter Reason</label>
-                <input type="text" id="text" name="text">
-            </div>
-            <div class="form-group">
-                <button type="submit">Submit</button>
-            </div>
-        </form>
-    </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
 
-    <script>
-        const statusSelect = document.getElementById('status');
-        const textGroup = document.getElementById('text-group');
-        const textInput = document.getElementById('text');
-
-        statusSelect.addEventListener('change', function() {
-            if (statusSelect.value === 'denied') {
-                textGroup.style.display = 'block';
-                textInput.required = true;
-            } else {
-                textGroup.style.display = 'none';
-                textInput.required = false;
-            }
-        });
-
-        document.getElementById('webhook-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const text = document.getElementById('text').value;
-            const discordId = document.getElementById('discord-id').value;
-            const status = document.getElementById('status').value;
-
-            fetch('https://prime-app-response.onrender.com/api/send-response', { // Ensure this matches your server's URL and port
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ text, discordId, status })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === 'Success') {
-                    alert('Message sent!');
-                } else {
-                    alert('Error sending message.');
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Error sending message.');
-            });
-        });
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
