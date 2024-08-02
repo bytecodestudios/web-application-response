@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     background: rgba(2, 6, 16, 1);
-    color: #fff;
+    color: #dee3f0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,7 +37,7 @@ body {
     border: 1px solid #ccc;
     box-sizing: border-box;
     background-color: #333947;
-    color: #fff;
+    color: #dee3f0;
 }
 .form-container select {
     width: 100%;
@@ -46,7 +46,7 @@ body {
     border: 1px solid #ccc;
     box-sizing: border-box;
     background-color: #333947;
-    color: #fff;
+    color: #dee3f0;
 }
 .form-container input[type="radio"] {
     margin-right: 10%;
@@ -56,12 +56,21 @@ body {
     border: none;
     border-radius: 4px;
     background: radial-gradient(circle, #3b82f6, #347af4, #2e73f1, #296bee, #2563eb);
-    color: #fff;
+    color: #dee3f0;
     cursor: pointer;
 }
 .form-container .error {
     color: #4769ff;
+    padding-top: 2px;
+    padding-bottom: 2px;
     display: none;
+}
+.form-container .submit-group {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5em;
+    color: #dee3f0;
 }
 .form-container .linkedClass {
     display: flex;

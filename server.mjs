@@ -90,7 +90,7 @@ client.on('interactionCreate', async (interaction) => {
                 if (action === 'accept') {
                     const guild = await client.guilds.fetch(guildId);
                     const member = await guild.members.fetch(discordId);
-                    
+
                     // Adding and removing roles
                     await member.roles.add(addRole);
                     await member.roles.remove(removeRole);
@@ -120,9 +120,7 @@ client.on('interactionCreate', async (interaction) => {
                             .setDisabled(true)
                     );
 
-                    if (!interaction.replied && !interaction.deferred) {
-                        await interaction.update({ components: [row] });
-                    }
+                    await interaction.update({ components: [row] });
 
                 } else if (action === 'decline') {
                     const modal = new ModalBuilder()
@@ -138,14 +136,9 @@ client.on('interactionCreate', async (interaction) => {
                             )
                         );
 
-                    if (!interaction.replied && !interaction.deferred) {
-                        await interaction.showModal(modal);
-                    }
-
+                    await interaction.showModal(modal);
                 } else {
-                    if (!interaction.replied && !interaction.deferred) {
-                        await interaction.reply({ content: 'Invalid action.', ephemeral: true });
-                    }
+                    await interaction.reply({ content: 'Invalid action.', ephemeral: true });
                 }
             }
 
@@ -183,13 +176,15 @@ client.on('interactionCreate', async (interaction) => {
                             .setDisabled(true)
                     );
 
-                    if (!interaction.replied && !interaction.deferred) {
-                        await formMessage.edit({ components: [row] });
-                    }
+                    await formMessage.edit({ components: [row] });
+                    await interaction.reply({ content: 'Response with reason submitted successfully.', ephemeral: true });
                 }
             }
         } catch (error) {
             console.error('Interaction error:', error.message);
+            if (!interaction.replied && !interaction.deferred) {
+                await interaction.reply({ content: 'There was an error processing your request. Please try again later.', ephemeral: true });
+            }
         }
     }
 });
