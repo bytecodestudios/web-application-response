@@ -15,6 +15,8 @@ document.getElementById('allowlistForm').addEventListener('submit', function(eve
     const characterNationality = document.getElementById('characterNationality').value;
     const discordId = document.getElementById('discordId').value;
     const linked = document.querySelector('input[name="linked"]:checked');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitMessage = document.getElementById('submitMessage');
     
     let valid = true;
 
@@ -46,13 +48,9 @@ document.getElementById('allowlistForm').addEventListener('submit', function(eve
     }
 
     if (valid) {
-        const submitMessage = document.getElementById('submitMessage')
+        submitBtn.disabled = true;
         submitMessage.style.display = 'block';
         submitMessage.innerHTML = 'Form Submitted Successfully!';
-        setTimeout(() => {
-            submitMessage.style.display = 'none';
-            submitMessage.innerHTML = '';
-        }, 8000)
 
         const formData = {
             characterName,
