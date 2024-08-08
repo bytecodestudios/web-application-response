@@ -35,6 +35,23 @@ app.get('/*', (req, res) => {
     res.sendFile(join(__dirname, 'public', 'index.html'));
 });
 
+app.post('/api/validate-discord', async (req, res) => {
+    const { discordId } = req.body;
+
+    try {
+        const user = await client.users.fetch(discordId);
+
+        if (user) {
+            res.json({ valid: true });
+        } else {
+            res.json({ valid: false });
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ valid: false });
+    }
+});
+
 app.post('/api/submit-form', async (req, res) => {
     const { characterName, characterNationality, discordId, linked } = req.body;
 

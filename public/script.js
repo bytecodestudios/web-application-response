@@ -8,12 +8,12 @@ const isBlacklisted = (value) => {
     return blacklist.some(word => lowerValue.includes(word.toLowerCase()));
 }
 
-document.getElementById('allowlistForm').addEventListener('submit', function(event) {
+document.getElementById('allowlistForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     
     const characterName = document.getElementById('characterName').value.trim();
     const characterNationality = document.getElementById('characterNationality').value;
-    const discordId = document.getElementById('discordId').value;
+    const discordId = document.getElementById('discordId').value.trim();
     const linked = document.querySelector('input[name="linked"]:checked');
     const submitBtn = document.getElementById('submitBtn');
     const submitMessage = document.getElementById('submitMessage');
@@ -36,8 +36,15 @@ document.getElementById('allowlistForm').addEventListener('submit', function(eve
         valid = false;
     }
 
-    const discordIdPattern = /^\d{16,19}$/;
-    if (!discordIdPattern.test(discordId)) {
+    const isValidDiscordId = await fetch(`${serverUrl}/api/validate-discord`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ discordId })
+    }).then(response => response.json());
+
+    if (!isValidDiscordId.valid) {
         document.getElementById('discordIdError').style.display = 'block';
         valid = false;
     }
