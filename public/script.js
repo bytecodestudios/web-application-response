@@ -36,7 +36,7 @@ document.getElementById('allowlistForm').addEventListener('submit', function(eve
         valid = false;
     }
 
-    const discordIdPattern = /^\d{18}$/;
+    const discordIdPattern = /^\d{16,19}$/;
     if (!discordIdPattern.test(discordId)) {
         document.getElementById('discordIdError').style.display = 'block';
         valid = false;
