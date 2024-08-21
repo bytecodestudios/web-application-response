@@ -1,4 +1,4 @@
-const serverUrl = "https://allowlist-pcrp-application.onrender.com"
+const serverUrl = "https://allowlist.pcrp.store"
 // const serverUrl = "http://localhost:3000"
 
 const blacklist = ["fuck", "sex", "noob", "shit", "chutiya", "gandu", "lavda", "none"];
